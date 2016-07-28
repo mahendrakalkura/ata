@@ -1,0 +1,93 @@
+{% load assets %}
+
+<!DOCTYPE html>
+<html lang="en" ng-app="application" ng-strict-di>
+    <head>
+        <meta charset="utf-8">
+        <meta content="IE=edge" http-equiv="X-UA-Compatible">
+        <meta content="width=device-width, initial-scale=1" name="viewport">
+        <title>Docker Status</title>
+        {% assets "stylesheets" %}
+            <link href="{{ ASSET_URL }}" rel="stylesheet"></script>
+        {% endassets %}
+    </head>
+    <body
+        ng-controller="controller"
+        data-url="{% url 'refresh' %}"
+        >
+        <div class="container">
+            <div class="page-header">
+                <button
+                    class="btn btn-info pull-right"
+                    ng-click="refresh()"
+                    >Refresh</button>
+                <h1>Docker Status</h1>
+            </div>
+            <table class="table table-bordered table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th>Container Name</th>
+                        <th>Version (Tag)</th>
+                        <th class="text-center">Status</th>
+                        <th class="text-center">
+                            <a ng-click="checkAll()">Update Available?</a>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody ng-if="spinner">
+                    <tr>
+                        <td class="text-center" colspan="4">
+                            <span
+                                class="glyphicon glyphicon-refresh glyphicon-spin"
+                                ></span>
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody ng-if="!spinner && containers.length">
+                    <tr ng-repeat="container in containers track by $index">
+                        <td>[! container.name !]</td>
+                        <td>[! container.current_version !]</td>
+                        <td class="text-center">[! container.status !]</td>
+                        <td class="text-center">
+                            <span
+                                class="glyphicon glyphicon-refresh glyphicon-spin"
+                                ng-if="container.spinner === true"
+                                ></span>
+                            <div ng-if="container.spinner === false">
+                                <div ng-if="container.new_version !== null">
+                                    <button
+                                        class="btn btn-success btn-xs"
+                                        ng-click="update($index)"
+                                        ng-if="container.new_version !== container.current_version"
+                                        >[! container.new_version !]</button>
+                                    <button
+                                        class="btn btn-default btn-xs"
+                                        ng-click="check($index)"
+                                        ng-if="container.new_version === container.current_version"
+                                        >
+                                        No
+                                    </button>
+                                </div>
+                                <div ng-if="container.new_version === null">
+                                    <button class="btn btn-warning btn-xs" ng-click="check($index)">
+                                        Check
+                                    </button>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody ng-if="!spinner && !containers.length">
+                    <tr>
+                        <td class="text-center text-danger" colspan="4">
+                            There are no containers in your repository.
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        {% assets "javascripts" %}
+            <script src="{{ ASSET_URL }}" type="text/javascript"></script>
+        {% endassets %}
+    </body>
+</html>
