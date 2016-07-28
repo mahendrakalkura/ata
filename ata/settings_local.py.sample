@@ -1,0 +1,13 @@
+# -*- coding: utf-8 -*-
+
+DEBUG = False
+DOCKER = 'unix://var/run/docker.sock'
+SECRET_KEY = '...'
+
+ALLOWED_HOSTS = []
+
+BOTO = {
+    'aws_access_key_id': '...',
+    'aws_secret_access_key': '...',
+    'region_name': '...',
+}
