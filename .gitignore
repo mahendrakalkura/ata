@@ -1,0 +1,5 @@
+ata/settings_local.py
+static/.webassets-cache
+static/assets.css
+static/assets.js
+static/bower_components
