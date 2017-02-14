@@ -14,7 +14,7 @@ How to install?
 ```
 $ mkdir ata
 $ cd ata
-$ git clone --recursive git@bitbucket.org:mahendrakalkura/ata.git .
+$ git clone --recursive git@github.com:mahendrakalkura/ata.git .
 $ cp ata/settings_local.py.sample ata/settings_local.py (edit as required)
 $ mkvirtualenv ata
 $ workon ata
